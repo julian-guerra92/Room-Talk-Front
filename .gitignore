@@ -34,3 +34,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#bd u otros
+mongo/
+.vscode/
+.env
+.env.development
+.env.production
+
