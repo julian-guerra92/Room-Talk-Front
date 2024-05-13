@@ -10,7 +10,7 @@ const roboto = Roboto({
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
     primary: {
       main: '#1E1E1E'
     },
@@ -46,7 +46,7 @@ const theme = createTheme({
       },
       styleOverrides: {
         root: {
-          backgroundColor: 'grey',
+          backgroundColor: 'rgba(204, 204, 204, 1)',
           height: 70
         },
       }

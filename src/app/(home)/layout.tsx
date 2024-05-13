@@ -1,17 +1,14 @@
-import MenuAppBar from "@/components/ui/MenuAppBar";
+import { MenuAppBar, Sidebar } from "@/components/ui";
 
-
-export default function ShopLayout( { children }: {
-  children: React.ReactNode;
-} ) {
+export default function ShopLayout({ children }: { children: React.ReactNode }) {
   return (
     <main className="min-h-screen">
 
       <MenuAppBar />
-      {/* <Sidebar /> */}
+      <Sidebar />
 
       <div className="px-0 sm:px-10">
-        { children }
+        {children}
 
       </div>
 

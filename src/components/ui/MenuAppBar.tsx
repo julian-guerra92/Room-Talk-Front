@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -14,7 +14,13 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useState } from 'react';
 
-const MenuAppBar = () => {
+import { useUIStore } from "@/store";
+
+
+export const MenuAppBar = () => {
+
+  const openSideMenu = useUIStore((state) => state.openSideMenu);
+
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -32,20 +38,28 @@ const MenuAppBar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" sx={{ justifyContent: 'space-between' }}>
+        <Toolbar >
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={openSideMenu}
           >
-            <MenuIcon />
+            <MenuIcon sx={{ color: 'rgba(44, 62, 80, 1)' }} fontSize='large'/>
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Photos
+          <Box flex={1} />
+          <Typography
+            variant="h1"
+            component="div"
+            color={'rgba(44, 62, 80, 1)'}
+            sx={{ border: 'solid', width:'230px', textAlign:'center', padding: '5px', borderRadius: '20px' }}
+          >
+            RoomTalks
           </Typography>
+          <Box flex={1} />
           {auth && (
             <div>
               <IconButton
@@ -56,7 +70,7 @@ const MenuAppBar = () => {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                <AccountCircle sx={{ color: 'rgba(44, 62, 80, 1)' }} fontSize='large'/>
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -83,5 +97,3 @@ const MenuAppBar = () => {
     </Box>
   );
 }
-
-export default MenuAppBar;
