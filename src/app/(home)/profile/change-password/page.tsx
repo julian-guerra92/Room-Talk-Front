@@ -1,10 +1,9 @@
 import { Title } from "@/components/ui/Title";
 
-
-export default function ProfilePage() {
+export default function ChangePasswordPage() {
    return (
       <div>
-         <Title title="Profile" />
+         <Title title="Change Password" />
       </div>
    )
 }

@@ -47,7 +47,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: 'rgba(204, 204, 204, 1)',
-          height: 70
+          height: 65
         },
       }
     },

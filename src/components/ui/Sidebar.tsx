@@ -14,6 +14,7 @@ import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { Typography } from '@mui/material';
+import { titleFont } from '@/config/fonts';
 
 
 export const Sidebar = () => {
@@ -33,8 +34,12 @@ export const Sidebar = () => {
                role="presentation"
                onClick={closeMenu}
             >
-               <Typography variant='h1' marginLeft={2}>
-                  Menu
+               <Typography
+                  variant='h1'
+                  marginLeft={2}
+                  className={`${titleFont.className} antialiased text-4xl font-semibold my-7`}
+               >
+                  Menú
                </Typography>
                <List>
                   <ListItemButton>
