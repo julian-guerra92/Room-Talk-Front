@@ -45,8 +45,7 @@ export const MenuAppBar = () => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ justifyContent: 'space-between' }}>
+      <AppBar position="sticky" sx={{ justifyContent: 'space-between' }}>
         <Toolbar >
           <IconButton
             size="large"
@@ -111,6 +110,5 @@ export const MenuAppBar = () => {
           )}
         </Toolbar>
       </AppBar>
-    </Box>
   );
 }

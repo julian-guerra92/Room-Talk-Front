@@ -77,17 +77,17 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: 'none',
-          boxShadow: 'none',
           borderRadius: 10,
-          ":hover": {
-            backgroundColor: 'rgba(0,0,0,0.05)',
-            transition: 'all 0.3s ease-in-out',
+          "&.Mui-disabled": {
+            "backgroundColor": "rgba(64,64,64,0.7)",
+            "color": "rgba(0,0,0,0.7)",
+            "borderColor": "rgba(0,0,0,0.12)"
           }
         }
       }
     },
     MuiCard: {
-      defaultProps: {   
+      defaultProps: {
         elevation: 0
       },
       styleOverrides: {
