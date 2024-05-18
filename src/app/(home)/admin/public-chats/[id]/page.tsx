@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { PublicChat } from "@/components/public-chat/PublicChat";
+import { AdminPublicChat } from "@/components/chat/AdminPublicChat";
 import { Chat } from "@/interfaces/chat.interface";
 
 const publicChats = [
@@ -59,6 +59,6 @@ export default async function ChatByIdPage({ params }: Props) {
    }
 
    return (
-      <PublicChat chat={chat} />
+      <AdminPublicChat chat={chat} />
    )
 }

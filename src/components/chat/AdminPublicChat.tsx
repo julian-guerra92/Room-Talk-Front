@@ -7,10 +7,11 @@ import { DeleteOutline, SaveOutlined, UploadOutlined } from "@mui/icons-material
 import { Alert, Box, Button, Card, CardActions, CardMedia, CircularProgress, FormLabel, Grid, Stack, TextField } from "@mui/material";
 
 interface Props {
-   chat?: Chat;
+   chat?: Chat,
+   
 }
 
-export const PublicChat = ({ chat }: Props) => {
+export const AdminPublicChat = ({ chat }: Props) => {
 
    const [isSaving, setIsSaving] = useState(false);
 
