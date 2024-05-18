@@ -7,9 +7,10 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
       <MenuAppBar />
       <Sidebar />
 
-      <div className="px-0 sm:px-10">
-        {children}
-
+      <div className="flex justify-center mt-5">
+            <div className="px-10 sm:w-[600px]">
+               {children}
+            </div>
       </div>
 
       {/* <Footer /> */}
