@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { AdminPublicChat } from "@/components/chat/AdminPublicChat";
 import { Chat } from "@/interfaces/chat.interface";
+import { Title } from "@/components/ui/Title";
 
 const publicChats = [
    {
@@ -54,11 +55,14 @@ export default async function ChatByIdPage({ params }: Props) {
    const { id } = params;
    const chat = publicChats.find(chat => chat.id === id) as Chat; //TODO: Petición a API
 
-   if(!chat) {
+   if (!chat) {
       return <div>Chat not found</div>
    }
 
    return (
-      <AdminPublicChat chat={chat} />
+      <>
+         <Title title="Edit Public Chat"/>
+         <AdminPublicChat chat={chat} />
+      </>
    )
 }

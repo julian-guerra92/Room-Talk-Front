@@ -1,29 +1,27 @@
 'use client';
 
 import { ChangeEvent, useRef, useState } from "react";
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Chat, FormDataChat } from "@/interfaces/chat.interface"
-import { DeleteOutline, SaveOutlined, UploadOutlined } from "@mui/icons-material";
-import { Alert, Box, Button, Card, CardActions, CardMedia, CircularProgress, FormLabel, Grid, Stack, TextField } from "@mui/material";
+import { SaveOutlined, UploadOutlined } from "@mui/icons-material";
+import { Alert, Box, Button, Card, CardActions, CardMedia, CircularProgress, Grid, Stack, TextField } from "@mui/material";
+import { createPublicChat } from "@/database/dbChat";
+import { useRouter } from "next/navigation";
 
 interface Props {
    chat?: Chat,
-   
 }
 
+const defaultImage = 'https://res.cloudinary.com/dq0yax1nl/image/upload/v1716072021/RoomTalks/sin-foto_ijhgmn.jpg';
 export const AdminPublicChat = ({ chat }: Props) => {
 
+   const router = useRouter();
    const [isSaving, setIsSaving] = useState(false);
-
    const [isLoading, setIsLoading] = useState(false);
-
    const [showError, setShowError] = useState(false);
-
-   const { register, handleSubmit, formState: { errors }, getValues, setValue, watch } = useForm<FormDataChat>({ defaultValues: chat })
-
+   const { register, handleSubmit, formState: { errors }, getValues, setValue } = useForm<FormDataChat>({ defaultValues: chat })
    const fileInputRef = useRef<HTMLInputElement>(null);
-
-   const name = chat?.name;
+   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
    const onFileSelected = async ({ target }: ChangeEvent<HTMLInputElement>) => {
       if (!target.files) {
@@ -31,33 +29,41 @@ export const AdminPublicChat = ({ chat }: Props) => {
       }
       try {
          setIsLoading(true);
-         const formData = new FormData();
-         formData.append('file', target.files[0]);
-         // const { data } = await myFavoriteCoachNextApi.post<{ message: string }>('/uploadImage', formData);
-         const data = { message: 'https://res.cloudinary.com/dq0yax1nl/image/upload/v1715740390/RoomTalks/constellations-2609647_1280_geaarw.jpg' }
-         setValue('referenceImage', data.message, { shouldValidate: true })
+         const file = target.files[0];
+         const imageUrl = URL.createObjectURL(file);
+         console.log({ imageUrl })
+         setPreviewImage(imageUrl);
+         setValue('referenceImage', file, { shouldValidate: true });
+         setIsLoading(false);
       } catch (error) {
          console.log({ error });
       }
    }
 
-   const onDeleteImage = async () => {
+   const onsubmit = async (data: FormDataChat) => {
+      if (!data.referenceImage) {
+         setShowError(true);
+         setTimeout(() => setShowError(false), 4000);
+         return;
+      }
       try {
-         const imageUrl = getValues('referenceImage');
-         // await myFavoriteCoachNextApi.post('/deleteImage', { data: imageUrl });
-         setValue(
-            'referenceImage',
-            undefined,
-            { shouldValidate: true }
-         )
-         setIsLoading(false);
+         setIsSaving(true);
+         let newChat: Chat;
+         if (chat) {
+            newChat = { ...chat, ...data };
+         } else {
+            newChat = await createPublicChat(data);
+         }
+         setIsSaving(false);
+         router.push(`/admin/public-chats/${1}`);
       } catch (error) {
-         console.log(error);
+         console.log({ error });
+         setIsSaving(false);
       }
    }
 
    return (
-      <form>
+      <form onSubmit={handleSubmit(onsubmit)}>
          <Grid
             sx={{ flexGrow: 1 }}
             container
@@ -71,8 +77,8 @@ export const AdminPublicChat = ({ chat }: Props) => {
                   <CardMedia
                      component='img'
                      className='fadeIn'
-                     image={getValues('referenceImage')}
-                     alt={getValues('referenceImage')}
+                     image={previewImage || getValues('referenceImage') || defaultImage}
+                     alt={getValues('referenceImage' || 'Default Image')}
                      sx={{ borderRadius: '50%', height: '300px', width: '300px' }}
                   />
                   <CardActions sx={{ position: 'absolute', marginTop: '230px' }}>
@@ -104,9 +110,9 @@ export const AdminPublicChat = ({ chat }: Props) => {
                   </CardActions>
                </Card>
 
-               <Stack sx={{ width: '100%', display: showError ? 'flex' : 'none' }} spacing={2}>
+               <Stack sx={{ width: '100%', display: showError ? 'flex' : 'none' }} mt={2}>
                   <Alert variant="filled" severity="warning">
-                     Se requiere agregar una foto de perfil!
+                     Se requiere agregar una foto de referencia!
                   </Alert>
                </Stack>
 
@@ -148,7 +154,7 @@ export const AdminPublicChat = ({ chat }: Props) => {
             </Grid>
 
          </Grid>
-         <Box display='flex' justifyContent='end' sx={{ mb: 3, mt:3 }}>
+         <Box display='flex' justifyContent='end' sx={{ mb: 3, mt: 3 }}>
             <Button
                color="secondary"
                variant='contained'

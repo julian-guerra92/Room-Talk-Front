@@ -15,5 +15,5 @@ export interface Chat {
 export interface FormDataChat {
    name: string;
    description: string;
-   referenceImage?: string;
+   referenceImage?: any;
 }
