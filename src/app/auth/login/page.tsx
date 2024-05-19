@@ -7,56 +7,28 @@ import { CircularProgress, Grid, TextField, Typography } from "@mui/material";
 import Box from '@mui/material/Box';
 import { emailValidations } from "../../../../utils";
 import { LogginInterface } from "@/interfaces/auth.interface";
-
-
-
-interface CreateNewUserInterface {
-   userId: string;
-   userIdTipe: string;
-   userName: string;
-   userLastname: string;
-   userPhoneNumber: string;
-   userEmail: string;
-   userPassword: string;
-   roleId: number;
-}
+import { loggin } from "@/database/dbAuth";
 
 export default function LoginPage() {
 
    const router = useRouter()
    const [error, setError] = useState("");
-   const [response, setResponse] = useState(null);
    const [isLoading, setIsLoading] = useState(false);
    const { register, handleSubmit, formState: { errors } } = useForm<LogginInterface>();
 
-   const callLogin = async (data: LogginInterface) => {
-      try {
-         const res = await fetch('http://localhost:8080/api/auth/login', {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-         });
-         if (!res.ok) {
-            setError("El email o contraseña son incorrectos. Vuelve a ingresar tu información o restablece la contraseña.");
-            setIsLoading(false);
-         }
-         if (res?.ok) {
-            router.push('/');
-         }
-         return res;
-      } catch (err) {
-         console.log(err);
-      }
-   };
-
    const onSubmit: SubmitHandler<LogginInterface> = async (data) => {
+
       setError("");
       setIsLoading(true);
 
-      const result = callLogin(data);
-      console.log(result)
+      const result = await loggin (data.email, data.password)
+      if (!result) {
+         setError("El email o contraseña son incorrectos. Vuelve a ingresar tu información o restablece la contraseña.");
+         setIsLoading(false);
+      }
+      if (result) {
+         router.push('/');
+      }
    }
 
    return (

@@ -10,6 +10,8 @@ import { Checkbox, CircularProgress, Grid, Typography } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import { emailValidations, passwordValidations } from '../../../../utils'
 import { /*CreateNewUserInterface*/ User, /*UserRoles, identificationTypes*/ } from '../../../interfaces';
+import { registerUser } from '@/database/dbAuth';
+import { RegisterUser } from '@/interfaces/register.interface';
 //import { createNewUser } from 'database/dbAuth';
 
 export const RegisterForm = () => {
@@ -19,44 +21,23 @@ export const RegisterForm = () => {
   const [errorMessage, setErrorMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<User>()
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterUser>()
 
-  const onSubmit: SubmitHandler<User> = async (data) => {
+  const onSubmit: SubmitHandler<RegisterUser> = async (data) => {
 
     setErrorMessage("");
     setIsLoading(true);
 
-   /* const newUser: CreateNewUserInterface = {
-      userId: data.identificationNumber,
-      userIdTipe: data.identificationType,
-      userName: data.name,
-      userLastname: data.lastName,
-      userPhoneNumber: `${data.telephonePrefix} ${data.telephoneNumber}`,
-      userEmail: data.email,
-      userPassword: data.password,
-      roleId: UserRoles.USUARIO_REGISTRADO
-    }*/
-
-    try {
-      const result = await createNewUser(newUser);
-      if (!result) {
-        setErrorMessage("Ha ocurrido un error al intentar crear la cuenta. Por favor, inténtalo de nuevo.");
-        setIsLoading(false);
-      }
-      if (result) {
-        await signIn('credentials', {
-          redirect: false,
-          email: data.email,
-          password: data.password
-        });
-        router.push('/');
-      }
-    } catch (error) {
-      setErrorMessage("Ha ocurrido un error al intentar crear la cuenta. Por favor, inténtalo de nuevo.");
-      setIsLoading(false);
+    const result = await registerUser (data.name, data.email, data.address, data.password)
+    if (!result) {
+       setErrorMessage("Ha ocurrido un error al intentar crear la cuenta. Por favor, inténtalo de nuevo.");
+       setIsLoading(false);
+    }
+    if (result) {
+       router.push('/');
     }
   }
-
+  
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-3 flex flex-col">
 
@@ -80,6 +61,12 @@ export const RegisterForm = () => {
             label="Dirección"
             variant="outlined"
             fullWidth
+            {...register("address", {
+              required: "Este campo es requerido",
+              pattern: { value: /^[a-zA-Z\s]*$/, message: "El nombre proporcionado no es válido" },
+            })}
+            error={!!errors.name}
+            helperText={errors.name?.message}
           />
         </Grid>
 
