@@ -16,6 +16,7 @@ import { Button, ListItemIcon, ListItemText } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { titleFont } from '@/config/fonts';
+import { stateUser } from '@/store/userState';
 
 
 export const MenuAppBar = () => {
@@ -25,6 +26,8 @@ export const MenuAppBar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const router = useRouter();
   const open = Boolean(anchorEl);
+
+  const user = stateUser((state) => state.user);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -44,6 +47,10 @@ export const MenuAppBar = () => {
     router.push('/profile/change-password');
   }
 
+  const handleLogIn = () => {
+    setAnchorEl(null);
+    router.push('/auth/login');
+  }
   return (
       <AppBar position="sticky" sx={{ justifyContent: 'space-between' }}>
         <Toolbar >
@@ -82,7 +89,7 @@ export const MenuAppBar = () => {
                 variant='text'
                 color='primary'
               >
-                Julián A. Rodríguez G.
+                {user?.name}
               </Button>
               <Menu
                 id="basic-menu"

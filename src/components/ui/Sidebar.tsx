@@ -46,7 +46,7 @@ export const Sidebar = () => {
                      <ListItemIcon>
                         <AccountCircleOutlinedIcon fontSize='large' />
                      </ListItemIcon>
-                     <ListItemText primary={'Log In'} />
+                     <ListItemText primary={'Iniciar sesión'} />
                   </ListItemButton>
                   <Divider />
                   <ListItemButton>
@@ -74,7 +74,7 @@ export const Sidebar = () => {
                      <ListItemIcon>
                         <LogoutOutlinedIcon fontSize='large' />
                      </ListItemIcon>
-                     <ListItemText primary={'Log Out'} />
+                     <ListItemText primary={'Cerrar sesión'} />
                   </ListItemButton>
                   <Divider />
                </List>

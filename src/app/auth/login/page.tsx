@@ -8,6 +8,8 @@ import Box from '@mui/material/Box';
 import { emailValidations } from "../../../../utils";
 import { LogginInterface } from "@/interfaces/auth.interface";
 import { loggin } from "@/database/dbAuth";
+import { stateUser } from "@/store/userState";
+import { userSession } from "@/interfaces/userSession.interface";
 
 export default function LoginPage() {
 
@@ -15,7 +17,7 @@ export default function LoginPage() {
    const [error, setError] = useState("");
    const [isLoading, setIsLoading] = useState(false);
    const { register, handleSubmit, formState: { errors } } = useForm<LogginInterface>();
-
+   const setUser = stateUser((state) => state.setUser);
    const onSubmit: SubmitHandler<LogginInterface> = async (data) => {
 
       setError("");
@@ -27,7 +29,13 @@ export default function LoginPage() {
          setIsLoading(false);
       }
       if (result) {
+         
+         const {_id, name, address, email, image, role} = result
+         console.log(name)
+         const user: userSession = {id: _id, name, email, address, role, image}
+         setUser(user)
          router.push('/');
+
       }
    }
 
