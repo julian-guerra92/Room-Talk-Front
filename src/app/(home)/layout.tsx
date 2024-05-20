@@ -14,7 +14,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
     <main>
       <MenuAppBar />
       <Sidebar />
-      <div>
+      <div style={{padding: '2px'}}>
         {children}
       </div>
       {/* <Footer /> */}

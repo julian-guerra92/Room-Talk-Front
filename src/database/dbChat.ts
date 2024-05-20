@@ -20,7 +20,7 @@ export const createPublicChat = async (chat: FormDataChat): Promise<Chat | null>
    }
 }
 
-export const getChayById = async (id: string): Promise<Chat | null> => {
+export const getChatById = async (id: string): Promise<Chat | null> => {
    try {
       const { data } = await roomTalkApi.get(`/chat/${id}`);
       return data;
@@ -47,3 +47,36 @@ export const updatePublicChat = async (chat: FormDataChat, id: string): Promise<
       return null;
    }
 }
+
+
+export const dbChat = {
+   async fetchPublicChats(): Promise<Chat[]> {
+      try {
+         const { data } = await roomTalkApi.get('/chat/public');
+         return data;
+      } catch (error) {
+         console.error('Error fetching public chats:', error);
+         throw error;
+      }
+   },
+
+   async fetchPrivateChats(): Promise<Chat[]> {
+      try {
+         const { data } = await roomTalkApi.get('/chat/private');
+         return data;
+      } catch (error) {
+         console.error('Error fetching private chats:', error);
+         throw error;
+      }
+   },
+
+   /*async fetchChatMessages(chatId: string): Promise<any> {
+     try {
+       const { data } = await roomTalkApi.get(`/chat/${chatId}/messages`);
+       return data;
+     } catch (error) {
+       console.error(`Error fetching messages for chat ${chatId}:`, error);
+       throw error;
+     }
+   }*/
+};
