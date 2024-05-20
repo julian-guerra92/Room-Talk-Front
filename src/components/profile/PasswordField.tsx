@@ -24,6 +24,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
       label={label}
       variant="outlined"
       fullWidth
+      color="info"
       type={showPassword ? "text" : "password"}
       {...register}
       error={!!errors}
