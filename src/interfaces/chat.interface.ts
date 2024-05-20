@@ -3,7 +3,7 @@ import { User } from "./user.interface";
 export type ChatType = 'public' | 'private';
 
 export interface Chat {
-   id: string;
+   _id: string;
    name: string;
    type: ChatType;
    description: string;
