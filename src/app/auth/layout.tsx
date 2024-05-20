@@ -1,22 +1,32 @@
-//import { auth } from '@/auth.config';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
+import Box from '@mui/material/Box';
+import { useUserStore } from '@/store';
 
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
 
-export default async function ShopLayout({ children }: { children: React.ReactNode }) {
+   const session = useUserStore((state) => state.session);
+   const [isSessionChecked, setIsSessionChecked] = useState(false);
 
-   const session = {
-      user: false
-   };
+   useEffect(() => {
+      if (session) {
+         redirect('/');
+      }
+      setIsSessionChecked(true);
+   }, [session]);
 
-   if (session?.user) {
-      redirect('/');
+   if (!isSessionChecked) {
+      return <></>
    }
 
    return (
-      <main className="flex justify-center">
-         <div>
+      <Box sx={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', marginTop:'30px' }} >
+         <div className="sm:w-[600px]">
             {children}
          </div>
-      </main>
+      </Box>
    );
+
 }

@@ -7,7 +7,7 @@ import '../styles/globals.css';
 
 export const metadata: Metadata = {
   title: {
-    template: "${title} | RoomTalk",
+    template: "%s | RoomTalk",
     default: "Home | RoomTalk",
   },
   description: "Salas de chat para uso público y privado",

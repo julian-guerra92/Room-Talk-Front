@@ -1,20 +1,22 @@
-import MenuAppBar from "@/components/ui/MenuAppBar";
+import { MenuAppBar, Sidebar } from "@/components/ui";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: {
+    template: "%s | Room Talk",
+    default: "Home | Room Talk",
+  },
+  description: "Salas de chat para aprender y compartir conocimientos.",
+};
 
-export default function ShopLayout( { children }: {
-  children: React.ReactNode;
-} ) {
+export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="min-h-screen">
-
+    <main>
       <MenuAppBar />
-      {/* <Sidebar /> */}
-
-      <div className="px-0 sm:px-10">
-        { children }
-
+      <Sidebar />
+      <div>
+        {children}
       </div>
-
       {/* <Footer /> */}
     </main>
   );
