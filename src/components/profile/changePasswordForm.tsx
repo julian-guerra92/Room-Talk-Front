@@ -2,9 +2,11 @@
 
 import React, { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { passwordValidations } from "../../../../../utils"
-import PasswordField from "../../../../components/ui/PasswordField"
-import {CircularProgress, Grid} from '@mui/material';
+import { passwordValidations } from "../../../utils"
+import PasswordField from "../ui/PasswordField"
+import { CircularProgress, Grid } from '@mui/material';
+import { updatePassword } from "@/database/dbAuth"
+import { useRouter } from "next/navigation"
 
 type FormInputs = {
   currentPassword: string
@@ -31,10 +33,27 @@ export default function ChangePasswordForm() {
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
   }
+
+  const router = useRouter()
+
+  const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-    console.log(data)
+
+    setError("");
+    setIsLoading(true);
+
+    const result = await updatePassword("66456a3efe7539f0a015dbdf", data.currentPassword, data.newPassword)
+    if (!result) {
+      setError("La contraseña actual es incorrecta. Por favor, inténtalo de nuevo.");
+      setIsLoading(false);
+    }
+    if (result) {
+      alert("Contraseña cambiada exitosamente");
+      router.push('/');
+    }
+
   }
 
   return (
@@ -101,13 +120,13 @@ export default function ChangePasswordForm() {
           />
         </Grid>
       </Grid>
-      
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-      <button style={{ height: '50px', width: '200px', fontSize: '20px', margin: '5% 50% 0% 5%' }}>
-        {isLoading ? <CircularProgress size={40} color="inherit" /> : 'Cambiar contraseña'}
-      </button>
-      </div>
 
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <button style={{ height: '50px', width: '200px', fontSize: '20px', margin: '5% 50% 0% 5%' }}>
+          {isLoading ? <CircularProgress size={40} color="inherit" /> : 'Cambiar contraseña'}
+        </button>
+        {error && <div style={{ margin: '5% 50% 0% 5%' }}>{error}</div>}
+      </div>
     </form>
   )
 }
