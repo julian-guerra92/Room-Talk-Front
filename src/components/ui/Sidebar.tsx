@@ -64,14 +64,14 @@ export const Sidebar = () => {
                         </>
                      ) : (
                         <>
-                           <ListItemButton onClick={() => navigateTo('/public-chat')}>
+                           <ListItemButton onClick={() => navigateTo('/chat/public')}>
                               <ListItemIcon>
                                  <ChatOutlinedIcon fontSize='large' />
                               </ListItemIcon>
                               <ListItemText primary={'Salas Chat Públicas'} />
                            </ListItemButton>
                            <Divider />
-                           <ListItemButton onClick={() => navigateTo('/private-chat')}>
+                           <ListItemButton onClick={() => navigateTo('/chat/private')}>
                               <ListItemIcon>
                                  <ThreePOutlinedIcon fontSize='large' />
                               </ListItemIcon>
@@ -81,7 +81,7 @@ export const Sidebar = () => {
                            {
                               session.role === 'Admin' && (
                                  <>
-                                    <ListItemButton onClick={() => navigateTo('/admin/public-chats/create')}>
+                                    <ListItemButton onClick={() => navigateTo('/admin/public-chat-list')}>
                                        <ListItemIcon>
                                           <ModeEditOutlineOutlinedIcon fontSize='large' />
                                        </ListItemIcon>

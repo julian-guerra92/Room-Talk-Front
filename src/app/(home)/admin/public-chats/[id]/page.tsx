@@ -12,7 +12,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
    const { id } = params;
-   const chat = await dbChat.getChayById(id);
+   const chat = await dbChat.getChatById(id);
    return {
       title: chat?.name ?? 'Chat not found',
       description: chat?.description ?? '',
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ChatByIdPage({ params }: Props) {
    const { id } = params;
-   const chat = await dbChat.getChayById(id);
+   const chat = await dbChat.getChatById(id);
 
    if (!chat) {
       notFound();
