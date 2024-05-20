@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import ChatView from '@/components/chat/ChatView';
-import useChatState from '@/store/ChatState';
 import { dbChat } from '@/database/dbChat';
 import { Chat } from '@/interfaces/chat.interface';
+import ChatView from '@/components/chat/ChatView';
+import useChatState from '@/store/ChatState';
 
 export default function PublicChatPage() {
 
