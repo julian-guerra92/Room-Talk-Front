@@ -29,8 +29,14 @@ const PublicChatPage: React.FC = () => {
         setSelectedChat(chat);
         setChatTitle(chat.name);
         setMessages([
-          { type: 'received', content: 'This is a sample message in public chat!', userId: 'user789' },
-          { type: 'sent', content: 'Hello from public chat!', userId: 'user123' },
+          {
+            type: 'received', content: 'This is a sample message in public chat!', userId: 'user789',
+            userName: ''
+          },
+          {
+            type: 'sent', content: 'Hello from public chat!', userId: 'user123',
+            userName: ''
+          },
         ]);
       }
   };

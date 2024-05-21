@@ -29,8 +29,14 @@ const PrivateChatPage: React.FC = () => {
         setSelectedChat(chat);
         setChatTitle(chat.name);
         setMessages([
-          { type: 'received', content: 'This is a sample message in private chat!', userId: 'user456' },
-          { type: 'sent', content: 'Hello from private chat!', userId: 'user123' },
+          {
+            type: 'received', content: 'This is a sample message in private chat!', userId: 'user456',
+            userName: ''
+          },
+          {
+            type: 'sent', content: 'Hello from private chat!', userId: 'user123',
+            userName: ''
+          },
         ]);
       }
   };
