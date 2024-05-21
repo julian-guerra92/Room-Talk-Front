@@ -45,3 +45,5 @@ const PublicChatPage: React.FC = () => {
   );
 
 };
+
+export default PublicChatPage;

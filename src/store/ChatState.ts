@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { Chat, ChatType } from '@/interfaces/chat.interface';
 
 interface Message {
+  userName: string;
   type: string;
   content: string;
   userId: string;

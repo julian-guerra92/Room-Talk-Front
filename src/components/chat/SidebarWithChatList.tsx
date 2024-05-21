@@ -21,11 +21,7 @@ const SidebarWithChatList: React.FC<SidebarWithChatListProps> = ({ chats, chatTy
             <Typography variant="body1" color="info.main">
               {chat.name}
             </Typography>
-            {chatType === 'public' && (
-              <Typography variant="body2" color="textSecondary">
-                Participants: {chat.participants.map(participant => participant.name).join(', ')}
-              </Typography>
-            )}
+            {chatType === 'public'}
           </Box>
         </ListItem>
       ))}
