@@ -6,10 +6,9 @@ import { dbChat } from '@/database/dbChat';
 import { Chat } from '@/interfaces/chat.interface';
 
 const PrivateChatPage: React.FC = () => {
-  const [privateChats, setPrivateChats] = useState<Chat[]>([]);
-  const [messages, setMessages] = useState<any[]>([]);
+  const [privateChats, setPrivateChats] = React.useState<Chat[]>([]);;
+  const { setChatType, setMessages, setSelectedChat } = useChatState();
   const [chatTitle, setChatTitle] = useState('Chat with User');
-  const { setChatType } = useChatState();
 
   useEffect(() => {
     setChatType('private');
@@ -25,20 +24,20 @@ const PrivateChatPage: React.FC = () => {
   }, [setChatType]);
 
   const handleChatClick = async (id: string) => {
-    const chat = privateChats.find(chat => chat._id === id);
-    if (chat) {
-      setChatTitle(chat.name);
-      setMessages([
-        { type: 'received', content: 'This is a sample message in public chat!' },
-        { type: 'sent', content: 'Hello from public chat!' },
-      ]);
-    }
+      const chat = privateChats.find(chat => chat._id === id);
+      if (chat) {
+        setSelectedChat(chat);
+        setChatTitle(chat.name);
+        setMessages([
+          { type: 'received', content: 'This is a sample message in private chat!', userId: 'user456' },
+          { type: 'sent', content: 'Hello from private chat!', userId: 'user123' },
+        ]);
+      }
   };
 
   return (
     <ChatView
       chatTitle={chatTitle}
-      messages={messages}
       chats={privateChats}
       chatType="private"
       handleChatClick={handleChatClick}

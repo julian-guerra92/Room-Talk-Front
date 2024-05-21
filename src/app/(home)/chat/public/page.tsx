@@ -5,12 +5,10 @@ import { Chat } from '@/interfaces/chat.interface';
 import ChatView from '@/components/chat/ChatView';
 import useChatState from '@/store/ChatState';
 
-export default function PublicChatPage() {
-
-  const [publicChats, setPublicChats] = useState<Chat[]>([]);
-  const [messages, setMessages] = useState<any[]>([]);
+const PublicChatPage: React.FC = () => {
+  const [publicChats, setPublicChats] = React.useState<Chat[]>([]);
+  const { setChatType, setMessages, setSelectedChat } = useChatState();
   const [chatTitle, setChatTitle] = useState('Group Chat');
-  const { setChatType } = useChatState();
 
   useEffect(() => {
     setChatType('public');
@@ -26,20 +24,20 @@ export default function PublicChatPage() {
   }, [setChatType]);
 
   const handleChatClick = async (id: string) => {
-    const chat = publicChats.find(chat => chat._id === id);
-    if (chat) {
-      setChatTitle(chat.name);
-      setMessages([
-        { type: 'received', content: 'This is a sample message in public chat!' },
-        { type: 'sent', content: 'Hello from public chat!' },
-      ]);
-    }
+      const chat = publicChats.find(chat => chat._id === id);
+      if (chat) {
+        setSelectedChat(chat);
+        setChatTitle(chat.name);
+        setMessages([
+          { type: 'received', content: 'This is a sample message in public chat!', userId: 'user789' },
+          { type: 'sent', content: 'Hello from public chat!', userId: 'user123' },
+        ]);
+      }
   };
 
   return (
     <ChatView
       chatTitle={chatTitle}
-      messages={messages}
       chats={publicChats}
       chatType="public"
       handleChatClick={handleChatClick}
