@@ -31,7 +31,7 @@ export default function LoginPage() {
          return
       }
       const session: UserSession = {
-         id: result.id,
+         id: result._id,
          name: result.name,
          email: result.email,
          address: result.address,
