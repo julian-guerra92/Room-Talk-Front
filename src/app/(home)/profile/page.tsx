@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import { useForm } from 'react-hook-form';
 import CheckIcon from '@mui/icons-material/Check';
 import { Chat, FormDataChat } from "@/interfaces/chat.interface"
-import { SaveOutlined, UploadOutlined } from "@mui/icons-material";
+import { Padding, SaveOutlined, UploadOutlined } from "@mui/icons-material";
 import { Alert, Box, Button, Card, CardActions, CardMedia, CircularProgress, FormControl, FormHelperText, Grid, Input, InputLabel, Stack, TextField } from "@mui/material";
 import { dbChat } from "@/database";
-import { Alerts } from "../../../components/ui";
+import { Alerts, Title } from "../../../components/ui";
 import { FormDataUser, User } from "@/interfaces/user.interface";
 import { useUserStore } from "@/store/user/user-store";
 import { updateUser } from "@/database/dbAuth";
@@ -84,16 +84,18 @@ export default function ProfilePage({ user }: Props) {
 
    return (
       <>
+         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Title title="Editar perfil" />
+         </Box>
 
          <form onSubmit={handleSubmit(onsubmit)}>
             <Grid
-               sx={{ flexGrow: 1 }}
                container
-               spacing={2}
-               style={{ width: '70%', margin: '0 auto' }}
+               spacing={0.5}
+               style={{ width: '50%', margin: '0% 35%' }}
                alignItems="center"
             >
-               <Grid item xs={12}>
+               <Grid item xs={7}>
 
                   <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                      <CardMedia
@@ -101,9 +103,9 @@ export default function ProfilePage({ user }: Props) {
                         className='fadeIn'
                         image={previewImage || getValues('file') || defaultImage}
                         alt={getValues('file' || 'Default Image')}
-                        sx={{ borderRadius: '50%', height: '300px', width: '300px' }}
+                        sx={{ borderRadius: '50%', height: '150px', width: '150px' }}
                      />
-                     <CardActions sx={{ position: 'absolute', marginTop: '230px' }}>
+                     <CardActions sx={{ position: 'absolute', marginTop: '110px' }}>
                         <Button
                            color="secondary"
                            variant='contained'
@@ -111,7 +113,7 @@ export default function ProfilePage({ user }: Props) {
                            startIcon={<UploadOutlined fontSize='large' />}
                            disabled={isLoading}
                            onClick={() => fileInputRef.current?.click()}
-                           sx={{ width: '150px' }}
+                           sx={{ width: '120px' }}
                         >
                            {
                               isLoading
@@ -141,14 +143,12 @@ export default function ProfilePage({ user }: Props) {
                </Grid>
 
 
-               <Grid item xs={5}>
+               <Grid item xs={7} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
                   <TextField
                      fullWidth
-                     //label="Nombre"
-                     variant="outlined"
                      color="info"
                      defaultValue={session?.name}
-                     sx={{ mt: 4 }}
+                     sx={{ mt: 2 }}
                   {...register('name', {
                      maxLength: { value: 50, message: 'Máximo 50 caracteres' }
                   })}
@@ -157,15 +157,10 @@ export default function ProfilePage({ user }: Props) {
                   />
                </Grid>
 
-               <Grid item xs={5}>
+               <Grid item xs={7}>
                <TextField
                      fullWidth
-                     //label="Email"
-                     variant="outlined"
                      color="info"
-                     /*defaultValue={session?.email}*/
-                     sx={{ mt: 4 }}
-                     //disabled = {true}
                      value = {session?.email}
                      {...register('email',{
                      })}
@@ -174,14 +169,11 @@ export default function ProfilePage({ user }: Props) {
                   />             
                </Grid>
 
-               <Grid item xs={5}>
+               <Grid item xs={7}>
                   <TextField
                      fullWidth
-                     //label="Dirección"
-                     variant="outlined"
                      color="info"
                      defaultValue={session?.address}
-                     sx={{ mt: 4 }}
                      {...register("address", {
                       })}
                       error={!!errors.address}
@@ -195,12 +187,11 @@ export default function ProfilePage({ user }: Props) {
                   )
                }
 
-               <Box display='flex' justifyContent='end' sx={{ mb: 3, mt: 8 }}>
+                  <Grid item xs={12}>
                   <Button
                      color="secondary"
                      variant='contained'
-                     startIcon={<SaveOutlined fontSize='large' />}
-                     sx={{ width: '350px', mt: 2, margin: '1rem 3rem' }}
+                     sx={{ width: '180px'}}
                      type="submit"
                      size='large'
                      disabled={isSaving}
@@ -208,21 +199,25 @@ export default function ProfilePage({ user }: Props) {
                   >
                      Cambiar contraseña
                   </Button>
-               </Box>
 
-               <Box display='flex' justifyContent='end' sx={{ mb: 3, mt: 3 }}>
-                  <Button
+                   <Button
                      color="secondary"
                      variant='contained'
                      startIcon={<SaveOutlined fontSize='large' />}
-                     sx={{ width: '150px', mt: 2 }}
+                     sx={{ width: '170px', margin: '0% 3%'}}
                      type="submit"
                      size='large'
                      disabled={isSaving}
                   >
                      Guardar
                   </Button>
-               </Box>
+               
+                  </Grid>
+                  
+               
+
+              
+                 
 
             </Grid>
 
