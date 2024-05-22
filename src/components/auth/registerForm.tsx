@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import TextField from '@mui/material/TextField';
 import { Box, Button, CircularProgress, Grid, Typography } from '@mui/material';
-import { emailValidations, passwordValidations } from '../../../utils'
+import { emailValidations, passwordValidations } from '../../utils'
 import { registerUser } from '@/database/dbAuth';
 import { RegisterUser } from '@/interfaces/register.interface';
 import { Title } from '../ui';
@@ -34,7 +34,7 @@ export const RegisterForm = () => {
       return;
     }
     const session: UserSession = {
-      id: result.id,
+      id: result._id,
       name: result.name,
       email: result.email,
       address: result.address,

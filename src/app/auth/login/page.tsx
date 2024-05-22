@@ -5,7 +5,7 @@ import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button, CircularProgress, Grid, TextField, Typography } from "@mui/material";
 import Box from '@mui/material/Box';
-import { emailValidations } from "../../../../utils";
+import { emailValidations } from "../../../utils";
 import { LogginInterface } from "@/interfaces/auth.interface";
 import { loggin } from "@/database/dbAuth";
 import { useUserStore } from "@/store/user/user-store";
@@ -31,7 +31,7 @@ export default function LoginPage() {
          return
       }
       const session: UserSession = {
-         id: result.id,
+         id: result._id,
          name: result.name,
          email: result.email,
          address: result.address,

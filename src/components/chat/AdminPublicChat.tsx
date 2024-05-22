@@ -65,9 +65,9 @@ export const AdminPublicChat = ({ chat }: Props) => {
          setConfirmUpdate(true);
          setTimeout(() => {
             setConfirmUpdate(false);
-            router.push(`/admin/public-chats/${newChat._id}`);
+            router.push(`/admin/public-chat-list`);
             setIsSaving(false);
-         }, 3000);
+         }, 2000);
       } catch (error) {
          console.log({ error });
          setIsSaving(false);
