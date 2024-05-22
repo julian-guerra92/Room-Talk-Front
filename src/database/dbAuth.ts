@@ -2,7 +2,7 @@ import roomTalkApi from "@/api/room-talk-api";
 import { LogginInterface } from "@/interfaces/auth.interface";
 import { RegisterUser } from "@/interfaces/register.interface";
 import { UpdatePassword } from "@/interfaces/updatePassword.interface";
-import { FormDataUser} from "@/interfaces/user.interface";
+import { FormDataUser } from "@/interfaces/user.interface";
 
 
 export const loggin = async (email: string, password: string): Promise<any> => {
@@ -48,14 +48,18 @@ export const updatePassword = async (id: string, oldPassword: string, newPasswor
 }
 
 export const updateUser = async (file: any, name: string, email: string, address: string): Promise<any> => {
-   const body: FormDataUser = {
-      name,
-      email,
-      address,
-      file
-   }
+   const formData = new FormData();
+   formData.append('name', name);
+   formData.append('email', email);
+   formData.append('address', address);
+   formData.append('file', file);
+
    try {
-      const { data } = await roomTalkApi.put('/users/update', body);
+      const { data } = await roomTalkApi.put('/users/update', formData, {
+         headers: {
+            'Content-Type': 'multipart/form-data',
+         },
+      });
       return data;
    } catch (error) {
       console.log(error)

@@ -14,6 +14,7 @@ import { FormDataUser, User } from "@/interfaces/user.interface";
 import { useUserStore } from "@/store/user/user-store";
 import { updateUser } from "@/database/dbAuth";
 import { emailValidations } from "../../../../utils";
+import { UserSession } from "@/interfaces/userSession.interface";
 
 interface Props {
    user?: User,
@@ -34,6 +35,7 @@ export default function ProfilePage({ user }: Props) {
    const fileInputRef = useRef<HTMLInputElement>(null);
    const [previewImage, setPreviewImage] = useState<string | null>(null);
    const session = useUserStore((state) => state.session);
+   const setSession = useUserStore((state) => state.setSession);
 
    const onFileSelected = async ({ target }: ChangeEvent<HTMLInputElement>) => {
       if (!target.files) {
@@ -54,12 +56,6 @@ export default function ProfilePage({ user }: Props) {
 
    const onsubmit = async (data: FormDataUser) => {
       
-      if (!data.file) {
-         console.log(data.file)
-         setShowError(true);
-         return;
-      }
-
      const name = data.name || session?.name;
      const email = data.email || session?.email;
      const address = data.address || session?.address;
@@ -68,11 +64,19 @@ export default function ProfilePage({ user }: Props) {
          setIsSaving(true);
          const result = await updateUser(data.file, name, email, address)
          if (!result) {
-            //setShowError("El email o contraseña son incorrectos. Vuelve a ingresar tu información o restablece la contraseña.");
             setIsLoading(false);
             return
          }else{
             setConfirmUpdate(true);
+            const session: UserSession = {
+               id: result.id,
+               name: result.name,
+               email: result.email,
+               address: result.address,
+               role: result.role,
+               image: result.image
+            }
+            setSession(session)
             router.push('/');
          }
       } catch (error) {
@@ -101,8 +105,8 @@ export default function ProfilePage({ user }: Props) {
                      <CardMedia
                         component='img'
                         className='fadeIn'
-                        image={previewImage || getValues('file') || defaultImage}
-                        alt={getValues('file' || 'Default Image')}
+                        image={previewImage || session?.image || defaultImage}
+                        alt={session?.image || defaultImage}
                         sx={{ borderRadius: '50%', height: '150px', width: '150px' }}
                      />
                      <CardActions sx={{ position: 'absolute', marginTop: '110px' }}>
@@ -133,12 +137,6 @@ export default function ProfilePage({ user }: Props) {
                         />
                      </CardActions>
                   </Card>
-
-                  <Stack sx={{ width: '100%', display: showError ? 'flex' : 'none' }} mt={2}>
-                     <Alert variant="filled" severity="warning">
-                        Se requiere agregar una foto de referencia!
-                     </Alert>
-                  </Stack>
 
                </Grid>
 
