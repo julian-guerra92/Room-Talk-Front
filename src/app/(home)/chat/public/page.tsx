@@ -1,16 +1,16 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import ChatView from '@/components/chat/ChatView';
-import useChatState from '@/store/ChatState';
 import { dbChat } from '@/database/dbChat';
 import { Chat } from '@/interfaces/chat.interface';
+import ChatView from '@/components/chat/ChatView';
+import useChatState from '@/store/ChatState';
+import { SocketManager } from '@/web-sockets/socket-manager';
 
-export default function PublicChatPage() {
-
-  const [publicChats, setPublicChats] = useState<Chat[]>([]);
-  const [messages, setMessages] = useState<any[]>([]);
+const PublicChatPage: React.FC = () => {
+  const [publicChats, setPublicChats] = React.useState<Chat[]>([]);
+  const { setChatType, setMessages, setSelectedChat } = useChatState();
   const [chatTitle, setChatTitle] = useState('Group Chat');
-  const { setChatType } = useChatState();
+  const socketManager = SocketManager.getInstance();
 
   useEffect(() => {
     setChatType('public');
@@ -27,19 +27,18 @@ export default function PublicChatPage() {
 
   const handleChatClick = async (id: string) => {
     const chat = publicChats.find(chat => chat._id === id);
+    socketManager.chatDisconnection();
+    socketManager.chatConnection(chat!._id, 'public');
     if (chat) {
+      setSelectedChat(chat);
       setChatTitle(chat.name);
-      setMessages([
-        { type: 'received', content: 'This is a sample message in public chat!' },
-        { type: 'sent', content: 'Hello from public chat!' },
-      ]);
+      setMessages([]);
     }
   };
 
   return (
     <ChatView
       chatTitle={chatTitle}
-      messages={messages}
       chats={publicChats}
       chatType="public"
       handleChatClick={handleChatClick}
@@ -47,3 +46,5 @@ export default function PublicChatPage() {
   );
 
 };
+
+export default PublicChatPage;

@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Box, Typography, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, ListItemAvatar, Avatar, IconButton } from '@mui/material';
 import { dbChat } from '@/database/dbChat';
 import { Chat } from '@/interfaces/chat.interface';
+import { AddOutlined } from '@mui/icons-material';
 
 const PublicChatListPage = () => {
   const [publicChats, setPublicChats] = useState<Chat[]>([]);
@@ -53,6 +54,20 @@ const PublicChatListPage = () => {
           </ListItem>
         ))}
       </List>
+      <IconButton
+        href='/admin/public-chats/create'
+        size='large'
+        sx={{
+          color: 'white',
+          backgroundColor: 'secondary.main',
+          ':hover': { backgroundColor: 'secondary.main', opacity: 0.9 },
+          position: 'fixed',
+          right: 50,
+          bottom: 50
+        }}
+      >
+        <AddOutlined sx={{ fontSize: 50 }} />
+      </IconButton>
     </Box>
   );
 };

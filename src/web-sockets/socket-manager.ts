@@ -39,10 +39,6 @@ export class SocketManager {
       this.socket?.on('chat-connection', (payload: any) => {
          console.log(payload)
       });
-
-      // this.socket?.on('chat-message', (payload: any) => {
-      //    console.log(payload)
-      // });
    }
 
    public getSocket(userId: string): Socket {

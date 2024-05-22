@@ -2,11 +2,12 @@
 
 import React, { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { passwordValidations } from "../../../utils"
+import { passwordValidations } from "../../utils"
 import PasswordField from "./PasswordField"
 import { Button, CircularProgress, Grid, Typography } from '@mui/material';
 import { updatePassword } from "@/database/dbAuth"
 import { useRouter } from "next/navigation"
+import { useUserStore } from "@/store"
 
 type FormInputs = {
   currentPassword: string
@@ -25,6 +26,7 @@ export default function ChangePasswordForm() {
   const currentPassword = watch("currentPassword")
 
   const [showPassword, setShowPassword] = useState({ current: false, new: false, confirm: false })
+  const session = useUserStore((state) => state.session);
 
   const handleClickShowPassword = (field: "current" | "new" | "confirm") => {
     setShowPassword({ ...showPassword, [field]: !showPassword[field] })
@@ -44,7 +46,7 @@ export default function ChangePasswordForm() {
     setError("");
     setIsLoading(true);
 
-    const result = await updatePassword("66456a3efe7539f0a015dbdf", data.currentPassword, data.newPassword)
+    const result = await updatePassword(session!.id, data.currentPassword, data.newPassword)
     if (!result) {
       setError("La contraseña actual es incorrecta. Por favor, inténtalo de nuevo.");
       setIsLoading(false);
