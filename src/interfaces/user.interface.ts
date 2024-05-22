@@ -7,3 +7,11 @@ export interface User {
    role: string;
    image?: string | null;
 }
+
+export interface FormDataUser {
+   name: string;
+   email: string;
+   address: string;
+   file?: any;
+}
+
