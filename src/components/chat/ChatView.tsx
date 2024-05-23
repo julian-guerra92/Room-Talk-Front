@@ -7,10 +7,11 @@ import { Chat } from '@/interfaces/chat.interface';
 import { ReceivedMessageBubble, SentMessageBubble } from './MessageBubbles';
 import { useUserStore } from '@/store/user/user-store';
 import { SocketManager } from '@/web-sockets/socket-manager';
+import { User } from '@/interfaces';
 
 interface ChatViewProps {
   chatTitle: string;
-  chats: Chat[];
+  chats: Chat[] | User[];
   chatType: 'public' | 'private';
   handleChatClick: (id: string) => void;
 }

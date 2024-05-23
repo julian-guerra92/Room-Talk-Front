@@ -16,7 +16,7 @@ export class SocketManager {
    }
 
    private connect(userId: string): Socket {
-      const manager = new Manager('https://room-talk-api.azurewebsites.net', {
+      const manager = new Manager('http://localhost:8080/api', {
          query: {
             userId
          }

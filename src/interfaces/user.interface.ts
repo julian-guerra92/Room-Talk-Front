@@ -1,9 +1,17 @@
 export interface User {
-   id: string;
-   name: string;
+   _id: string;
+   addres: string;
    email: string;
-   emailVerified?: Date | null;
+   image: string;
+   name: string;
    password: string;
    role: string;
-   image?: string | null;
 }
+
+export interface FormDataUser {
+   name: string;
+   email: string;
+   address: string;
+   file?: any;
+}
+

@@ -1,50 +1,61 @@
 "use client";
+
 import React, { useEffect, useState } from 'react';
 import ChatView from '@/components/chat/ChatView';
 import useChatState from '@/store/ChatState';
-import { dbChat } from '@/database/dbChat';
-import { Chat } from '@/interfaces/chat.interface';
+import { dbChat, dbMessage, dbUser } from '@/database';
+import { User } from '@/interfaces';
+import { SocketManager } from '@/web-sockets/socket-manager';
+import { useUserStore } from '@/store';
 
 const PrivateChatPage: React.FC = () => {
-  const [privateChats, setPrivateChats] = React.useState<Chat[]>([]);;
-  const { setChatType, setMessages, setSelectedChat } = useChatState();
+  const [contacts, setContacts] = useState<User[]>([]);;
+  const { setChatType, setMessages, setSelectedContact } = useChatState();
   const [chatTitle, setChatTitle] = useState('Chat with User');
+  const socketManager = SocketManager.getInstance();
+  const session = useUserStore((state) => state.session);
+
 
   useEffect(() => {
+    setMessages([]);
     setChatType('private');
     const fetchChats = async () => {
-      try {
-        const chats = await dbChat.fetchPrivateChats();
-        setPrivateChats(chats);
-      } catch (error) {
-        console.error('Failed to fetch private chats:', error);
+      const contacts = await dbUser.getAllUSers();
+      if (contacts) {
+        setContacts(contacts);
       }
     };
     fetchChats();
   }, [setChatType]);
 
   const handleChatClick = async (id: string) => {
-      const chat = privateChats.find(chat => chat._id === id);
+    const contact = contacts.find(contact => contact._id === id);
+    if (contact) {
+      setSelectedContact(contact);
+      setChatTitle(contact.name);
+      console.log(contact);
+      const chat = await dbChat.createPrivateChat(session!.id, contact._id);
       if (chat) {
-        setSelectedChat(chat);
-        setChatTitle(chat.name);
-        setMessages([
-          {
-            type: 'received', content: 'This is a sample message in private chat!', userId: 'user456',
-            userName: ''
-          },
-          {
-            type: 'sent', content: 'Hello from private chat!', userId: 'user123',
-            userName: ''
-          },
-        ]);
+        socketManager.chatDisconnection();
+        socketManager.chatConnection(chat._id, 'private');
+        const chatMessages = await dbMessage.getMessageByChatId(chat._id);
+        const messages = chatMessages?.map((message) => {
+          return {
+            userName: message.senderId === session?.id ? session?.name : contact.name,
+            type: message.senderId === session?.id ? 'sent' : 'received',
+            content: message.content,
+            userId: message.senderId,
+          };
+        })
+        setMessages(messages || []);
       }
+    }
   };
 
   return (
     <ChatView
       chatTitle={chatTitle}
-      chats={privateChats}
+      chats={contacts}
       chatType="private"
       handleChatClick={handleChatClick}
     />

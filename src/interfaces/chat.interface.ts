@@ -6,7 +6,7 @@ export interface Chat {
    _id: string;
    name: string;
    type: ChatType;
-   description: string;
+   description?: string;
    participants: User[];
    referenceImage?: string;
 }

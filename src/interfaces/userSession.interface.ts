@@ -4,5 +4,5 @@ export interface UserSession {
     email: string;
     address: string;
     role: string;
-    image?: string | null;
+    image?: any | null;
 }

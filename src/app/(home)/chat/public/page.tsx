@@ -13,6 +13,7 @@ const PublicChatPage: React.FC = () => {
   const socketManager = SocketManager.getInstance();
 
   useEffect(() => {
+    setMessages([]);
     setChatType('public');
     const fetchChats = async () => {
       try {

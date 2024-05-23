@@ -20,6 +20,19 @@ export const createPublicChat = async (chat: FormDataChat): Promise<Chat | null>
    }
 }
 
+export const createPrivateChat = async (senderUserId: string, receiverUserId: string): Promise<Chat | null> => {
+   try {
+      const { data } = await roomTalkApi.post('/chat/private', {
+         senderUserId,
+         receiverUserId,
+      });
+      return data;
+   } catch (error) {
+      console.log(error);
+      return null;
+   }
+}
+
 export const getChatById = async (id: string): Promise<Chat | null> => {
    try {
       const { data } = await roomTalkApi.get(`/chat/${id}`);
@@ -70,13 +83,4 @@ export const dbChat = {
       }
    },
 
-   /*async fetchChatMessages(chatId: string): Promise<any> {
-     try {
-       const { data } = await roomTalkApi.get(`/chat/${chatId}/messages`);
-       return data;
-     } catch (error) {
-       console.error(`Error fetching messages for chat ${chatId}:`, error);
-       throw error;
-     }
-   }*/
 };

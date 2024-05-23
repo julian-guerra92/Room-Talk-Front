@@ -1,9 +1,10 @@
 import React from 'react';
 import { Box, Typography, List, ListItem, Avatar } from '@mui/material';
 import { Chat } from '@/interfaces/chat.interface';
+import { User } from '@/interfaces';
 
 interface SidebarWithChatListProps {
-  chats: Chat[];
+  chats: Chat[] | User[];
   chatType: 'public' | 'private';
   handleChatClick: (id: string) => void;
 }
@@ -14,17 +15,20 @@ const SidebarWithChatList: React.FC<SidebarWithChatListProps> = ({ chats, chatTy
       {chatType === 'private' ? 'Private Chats' : 'Public Chats'}
     </Typography>
     <List>
-      {chats.map((chat) => (
-        <ListItem key={chat._id} button onClick={() => handleChatClick(chat._id)}>
-          <Avatar src={chat.referenceImage} />
-          <Box ml={2}>
-            <Typography variant="body1" color="info.main">
-              {chat.name}
-            </Typography>
-            {chatType === 'public'}
-          </Box>
-        </ListItem>
-      ))}
+      {chats.map((chat) => {
+        const image = 'image' in chat ? chat.image : chat.referenceImage;
+        return (
+          <ListItem key={chat._id} button onClick={() => handleChatClick(chat._id)}>
+            <Avatar src={image} />
+            <Box ml={2}>
+              <Typography variant="body1" color="info.main">
+                {chat.name}
+              </Typography>
+              {chatType === 'public'}
+            </Box>
+          </ListItem>
+        );
+      })}
     </List>
   </Box>
 );
