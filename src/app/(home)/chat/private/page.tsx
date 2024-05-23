@@ -22,7 +22,7 @@ const PrivateChatPage: React.FC = () => {
     const fetchChats = async () => {
       const contacts = await dbUser.getAllUSers();
       if (contacts) {
-        setContacts(contacts);
+        setContacts(contacts.filter(contact => contact._id !== session?.id));
       }
     };
     fetchChats();
