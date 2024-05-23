@@ -47,9 +47,9 @@ export default function ProfilePage() {
 
    const onsubmit = async (data: FormDataUser) => {
 
-      const name = data.name || session?.name;
-      const email = data.email || session?.email;
-      const address = data.address || session?.address;
+      const name = data.name || session!.name;
+      const email = data.email || session!.email;
+      const address = data.address || session!.address;
 
       try {
          setIsSaving(true);
