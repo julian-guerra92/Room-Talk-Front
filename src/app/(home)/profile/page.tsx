@@ -12,19 +12,16 @@ import { useUserStore } from "@/store/user/user-store";
 import { updateUser } from "@/database/dbAuth";
 import { UserSession } from "@/interfaces/userSession.interface";
 
-interface Props {
-   user: User,
-}
 
 const defaultImage = 'https://res.cloudinary.com/dq0yax1nl/image/upload/v1716072021/RoomTalks/sin-foto_ijhgmn.jpg';
 
-export default function ProfilePage({ user }: Props) {
+export default function ProfilePage() {
 
    const router = useRouter();
    const [isSaving, setIsSaving] = useState(false);
    const [isLoading, setIsLoading] = useState(false);
    const [confirmUpdate, setConfirmUpdate] = useState(false);
-   const { register, handleSubmit, formState: { errors }, getValues, setValue } = useForm<FormDataUser>({ defaultValues: user })
+   const { register, handleSubmit, formState: { errors }, getValues, setValue } = useForm<FormDataUser>()
 
    const fileInputRef = useRef<HTMLInputElement>(null);
    const [previewImage, setPreviewImage] = useState<string | null>(null);
